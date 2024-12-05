@@ -23,18 +23,39 @@ def find_occurrences(matrix, word):
                         occurrences.append((x, y, dx, dy))
     return occurrences
 
+def find_occurrences_part2(matrix, word):
+    directions = [(1, 1), (-1, 1), (-1, -1), (1, -1)]
+    start_points = [(-1, -1), (1, -1), (1, 1), (-1, 1)]
+    occurrences = []
+    x_found = 0
+    
+    for x in range(len(matrix)):
+        for y in range(len(matrix[0])):
+            if matrix[x][y] == word[1]:
+                for start_x, start_y in start_points:
+                    if search_from(matrix, word, start_x + x, start_y + y, start_x * -1, start_y * -1):
+                        x_found += 1
+                if x_found == 2:
+                    occurrences.append((x, y))
+                x_found = 0
+    return occurrences
+
 def d04():
-    lines = open(f"inputs\\d04_example.txt").read().strip().split("\n")
+    lines = open(f"inputs\\d04.txt").read().strip().split("\n")
     matrix = [list(line) for line in lines]
 
-    search_word = "XMAS"
-    found_positions_part1 = find_occurrences(matrix, search_word)  
+    search_word_part1 = "XMAS"
+    search_word_part2 = "MAS"
+
+    found_positions_part1 = find_occurrences(matrix, search_word_part1)
+    found_positions_part2 = find_occurrences_part2(matrix, search_word_part2)
 
     # print(f"Occurrences of {search_word}:")
     # for position in found_positions_part1:
     #     print(f"Start at ({position[0]}, {position[1]}) in direction (dx={position[2]}, dy={position[3]})")
 
     print(f"Part 1: {len(found_positions_part1)}")
+    print(f"Part 2: {len(found_positions_part2)}")
 
 
 def _test():
