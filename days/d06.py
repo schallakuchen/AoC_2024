@@ -45,6 +45,25 @@ def d06():
         print_map(map)
         time.sleep(speed)
 
+    def is_path_clear(map, start_point, end_point):
+        start_row, start_col = start_point
+        end_row, end_col = end_point
+        
+        if start_row == end_row:  # Same row, check horizontally
+            col_range = range(min(start_col, end_col) + 1, max(start_col, end_col))
+            for col in col_range:
+                if map[start_row][col] == '#':
+                    return False
+        elif start_col == end_col:  # Same column, check vertically
+            row_range = range(min(start_row, end_row) + 1, max(start_row, end_row))
+            for row in row_range:
+                if map[row][start_col] == '#':
+                    return False
+        else:
+            # If the points are not aligned, return False (optional based on your needs)
+            return False
+        return True
+
     for row in range(len(map)):
         for column in range(len(map[0])):
             print(map[row][column], end="")
