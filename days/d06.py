@@ -46,21 +46,20 @@ def d06():
         time.sleep(speed)
 
     def is_path_clear(map, start_point, end_point):
-        start_row, start_col = start_point
-        end_row, end_col = end_point
+        start_row, start_column = start_point
+        end_row, end_column = end_point
         
-        if start_row == end_row:  # Same row, check horizontally
-            col_range = range(min(start_col, end_col) + 1, max(start_col, end_col))
-            for col in col_range:
-                if map[start_row][col] == '#':
+        if start_row == end_row:
+            col_range = range(min(start_column, end_column) + 1, max(start_column, end_column))
+            for column in col_range:
+                if map[start_row][column] == '#':
                     return False
-        elif start_col == end_col:  # Same column, check vertically
+        elif start_column == end_column:
             row_range = range(min(start_row, end_row) + 1, max(start_row, end_row))
             for row in row_range:
-                if map[row][start_col] == '#':
+                if map[row][start_column] == '#':
                     return False
         else:
-            # If the points are not aligned, return False (optional based on your needs)
             return False
         return True
 
@@ -105,23 +104,17 @@ def d06():
         print(f"C: {c_point} | A: {a_point} | D: {d_point} | Block: {block_position}")
         print()
         
-        # TODO: check if no obstacles are in the way to the calculated loop point
-        possible_loop_positions.append(block_position)
+        if is_path_clear(map, c_point, d_point):
+            possible_loop_positions.append(block_position)
+            map[block_position[0]][block_position[1]] = i
 
-
-        # c_row, c_column = turn
-        # a_row, a_column = turn_points[i-2]
-        # print(f"Current point: {turn}")
-        # print(f"Calculated turn point: {(c_row, a_row)}")
-        # block_position = update_position((c_row, a_row), directions, i % len(directions))
-        # print(f"Block position next to it: {block_position}")
-        # possible_loop_positions.append(block_position)
-        # print(turn)
-
-    print(f"Part 1: {sum_part1}")
+    print()
+    print_map(map)
     print()
     print(turn_points)
     print(possible_loop_positions)
+    print(f"Part 1: {sum_part1}")
+    print(f"Part 2: {len(possible_loop_positions)}")
 
 def _test():
     print("File shall not be run standalone")
